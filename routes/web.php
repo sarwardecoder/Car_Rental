@@ -1,10 +1,12 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
 });
+
+
 
 
 Route::middleware(['role:admin'])->group(function () {

@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function login()
     {
-        //
+        // return "user logged in from login function User controller";
+        return Inertia::render('LoginPage');
     }
 
     /**

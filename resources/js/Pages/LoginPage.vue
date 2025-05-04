@@ -27,33 +27,33 @@ const login = () => {
         <div class="row">
             <div class="col-md-12">
                 <div
-                    class="login d-flex-row justify-content-center align-items-center"
+                    class="login d-flex-row justify-content-center"
                 >
-                    <div class="card" style="width: 18rem">
+                    <div class="card -center border border-info border-2 mt-3" style="width: 20rem">
                         <div class="card-body">
-                            <h5 class="card-title">Login Here</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">
-                                Card subtitle
-                            </h6>
+                            <h5 class="card-title text-center">Login Here</h5>
+                            
 
                             <form @submit.prevent="login">
-                                <label for="email">Email:</label>
+                                <label class="m-1" for="email">Email:</label>
                                 <input
+                                class="mb-2"
                                     type="email"
                                     id="email"
                                     placeholder="Type your email"
                                 />
-                                <label for="password">Password:</label>
+                                <label class="m-1"  for="password">Password:</label>
                                 <input
+                                class="mb-3" 
                                     type="password"
                                     id="password"
                                     placeholder="Type your password"
                                 />
-                                <button class="btn btn-primary m-2">Login</button>
+                                <button class="btn btn-primary m-2 pt-2">Login</button>
                             </form>
                             <button class="btn btn-dark m-1">
                                 <a href="/user/create" class="card-link"
-                                    >Don't have one? Create now</a
+                                    >Not a User? Create now</a
                                 >
                             </button>
                         </div>

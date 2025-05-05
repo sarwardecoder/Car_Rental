@@ -21,7 +21,6 @@ const login = () => {
 </script>
 
 <template>
-    <!-- <h1>User logged in from Login Pg vue</h1> -->
 
     <div class="container">
         <div class="row">
@@ -31,7 +30,7 @@ const login = () => {
                 >
                     <div class="card -center border border-info border-2 mt-3" style="width: 20rem">
                         <div class="card-body">
-                            <h5 class="card-title text-center">Login Here</h5>
+                            <h3 class="card-title text-center">Login Here</h3>
                             
 
                             <form @submit.prevent="login">
@@ -64,4 +63,21 @@ const login = () => {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.card{
+    position: absolute!important;
+    top:30%;
+    left:40%;
+}
+.card form label{
+    padding: 2px 2px;
+    display: flex;
+}
+.card form input{
+    display: flex;
+    border: 1px solid rgb(8, 42, 43);
+    border-radius: 8px;
+    padding: 5px 8px;
+    width: 100%;
+}
+</style>

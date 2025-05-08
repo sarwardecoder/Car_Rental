@@ -1,47 +1,88 @@
 <script setup>
+import { Link, useForm, usePage } from  '@inertiajs/vue3';
+import { computed } from "vue";
+import { useToast } from "vue-toastification";
+import NavMenu from '@/Components/NavMenu.vue';
+const flash = computed(() => usePage().props.flash);
+const toast = useToast();
+let page = usePage;
+// console.log(page);
 
 </script>
 
 <template>
-    <nav class="navbar bg-success-subtle navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
+  <!-- <nav class="navbar navbar-expand-lg bg-success-subtle shadow-sm custom-font"> -->
+    <nav class="navbar navbar-expand-lg gradient-success shadow-sm custom-font">
 
-    <a class="navbar-brand" href="#">    <img src="/public/images/logo-swiftride.png" alt="SwiftRide logo" width="90" class="me-2 rounded" />
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Rent A Car</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Dashboard</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Login here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Contact Us</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="/public/images/logo-swiftride.png" alt="SwiftRide logo" width="90" class="me-2 rounded" />
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><Link class="nav-link fs-5 nav-anim active" href="/">Home</Link></li>
+          <li class="nav-item"><Link class="nav-link fs-5 nav-anim" href="/rent">Rent A Car</Link></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link fs-5 nav-anim dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">Services</a>
+            <ul class="dropdown-menu">
+              <li><Link class="dropdown-item" href="/dashboard">Dashboard</Link></li>
+              <li><Link class="dropdown-item" href="/settings">Settings</Link></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><Link href="/login" class="dropdown-item">Login Here</Link></li>
+
+            </ul>
+          </li>
+          <li class="nav-item"><Link class="nav-link fs-5 nav-anim" href="/contact">Contact Us</Link></li>
+          <li class="nav-item"><Link class="nav-link fs-5 nav-anim" v-if="true" href="/logout">Hi, click to Logout!</Link></li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.custom-font {
+  font-family: 'Poppins', sans-serif;
+}
+.gradient-success {
+  background: linear-gradient(to right, #198754, #ffffff); /* success green to white */
+}
+
+
+.nav-anim {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-anim::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #14532d;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-anim:hover::after {
+  width: 100%;
+}
+
+.nav-anim:hover {
+  color: #14532d !important;
+}
 </style>

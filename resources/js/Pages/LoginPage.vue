@@ -2,6 +2,7 @@
 import { Link, useForm, usePage } from  '@inertiajs/vue3';
 import { computed } from "vue";
 import { useToast } from "vue-toastification";
+import NavMenu from '@/Components/NavMenu.vue';
 const flash = computed(() => usePage().props.flash);
 const toast = useToast();
 
@@ -32,6 +33,7 @@ const login = () => {
 
 <template>
 
+    <NavMenu/>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -50,13 +52,17 @@ const login = () => {
                                     type="email"
                                     id="email"
                                     placeholder="Type your email"
+                                    v-model="form.email"
                                 />
+                                <div v-if="form.errors.name">{{ form.errors.email }}</div>
+
                                 <label class="m-1"  for="password">Password:</label>
                                 <input
                                 class="mb-3" 
                                     type="password"
                                     id="password"
                                     placeholder="Type your password"
+                                    v-model="form.password"
                                 />
                                 <button class="btn btn-primary m-2 pt-2">Login</button>
                             </form>

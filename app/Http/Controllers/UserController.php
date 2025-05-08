@@ -46,7 +46,8 @@ class UserController extends Controller
                 'role' => $request->role,
                 'password' => $request->password,
             ]);
-            return redirect()->back()->with('success', 'User created successfully.');
+            // return redirect()->back()->with('success', 'User created successfully.');
+            return redirect('/login')->with('success', 'User created successfully.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -65,7 +66,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Inertia::render('EditUser');
     }
 
     /**

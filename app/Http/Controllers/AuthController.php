@@ -14,6 +14,7 @@ return Inertia::render('LoginPage');
 
 
  public function login(Request $request){
+    // dd($request->all());
 $request->validate([
     'email'=>'email|required',
     'password'=>'required',
@@ -23,7 +24,7 @@ $password=$request->password;
 if(!Auth::attempt(['email'=>$email,'password'=>$password])){
 return redirect()->back()->with('error','invalid credentials');
 }
-return redirect()->route('homepage');
+return redirect()->route('rent')->with('success','User logged in successfully!');
 
  }
 }

@@ -9,9 +9,10 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [HomeController::class, 'homePage'])->name('homepage');
 
-Route::get('/dashboard', [DashbaordController::class, 'dashbaord'])->name('dashboard');
+Route::get('/dashboard', [DashbaordController::class, 'dashboard'])->name('dashboard');
 // All user routes
 Route::get('/user/create', [UserController::class, 'userCreate'])->name('user.create');
+Route::post('/user/create', [UserController::class, 'userStore'])->name('user.create');
 Route::get('/user/update/{id}', [UserController::class, 'userUpdate'])->name('user.update');
 Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
 

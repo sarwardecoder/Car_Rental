@@ -51,7 +51,7 @@ class User extends Authenticatable
         return "He/She is Admin";
     }
 
-    public function isCustomer(){
+    public function isUser(){
         return "He/She is Customer";
     }
     public function rentals(){

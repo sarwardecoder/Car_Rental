@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from  '@inertiajs/vue3';
 import { computed } from "vue";
 import { useToast } from "vue-toastification";
 const flash = computed(() => usePage().props.flash);
@@ -9,6 +9,16 @@ const form = useForm({
     email: "",
     password: "",
 });
+const signUp=()=>{
+    form.get("/user/create",{
+    onSuccess: () => {
+            flash.value.success && toast.success(flash.value.success);
+            flash.value.error && toast.error(flash.value.error);
+        },
+    });
+
+    
+}
 
 const login = () => {
     form.post("/login", {
@@ -51,8 +61,8 @@ const login = () => {
                                 <button class="btn btn-primary m-2 pt-2">Login</button>
                             </form>
                             <button class="btn btn-dark m-1">
-                                <a href="/user/create" class="card-link"
-                                    >Not a User? Create now</a
+                                <Link href="/user/create" class="card-link"
+                                    >Not a User? Create now</Link
                                 >
                             </button>
                         </div>

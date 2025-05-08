@@ -1,7 +1,9 @@
 <script setup>
+
 import { Link, useForm, usePage} from '@inertiajs/vue3';
 import { computed, onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
+import NavMenu from '../Components/NavMenu.vue';
 const page = usePage();
 // console.log(page.props.users);
 // const flash = computed(() => usePage().props.flash);
@@ -14,6 +16,7 @@ console.log(items);
 </script>
 
 <template>
+    <NavMenu/>
     <div class="container border border-primary border-1">
         <div class="row">
             

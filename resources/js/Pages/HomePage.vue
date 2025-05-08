@@ -1,18 +1,27 @@
 <script setup>
+import NavMenu from '../Components/NavMenu.vue';
 </script>
 
 <template>
+    
     <div class="container border border-primary border-1">
         <div class="row">
             
-            <h1 class="text-center m-2 p-2">    SwiftRide Car Rentals</h1>
+            
+            
+            <div class="position-relative">
+                <NavMenu/>
+                <img src="/public/images/hero-banner.png" alt="SwiftRide Hero" class="img-fluid w-100" />
+    <!-- <div class="position-absolute top-50 start-50 translate-middle text-white text-center bg-dark bg-opacity-50 p-4 rounded">
+        <h2 class="display-4 text-warning">Your Journey, Our Wheels</h2>
+      <p class="lead">Classic Rides, Trusted Journeys</p>
+    </div> -->
+  </div>
 
-            <div class="d-flex justify-content-center bg-info align-items-center border border-info-subtle border-3 p-3">“Classic Rides, Trusted Journeys”</div>
-
-<div class="d-flex justify-content-start bg-warning align-items-start border border-secondary-subtle border-3 p-2 mt-2">SwiftRide Car Rentals offers a seamless and reliable car rental experience, providing a diverse fleet of well-maintained vehicles to meet your travel needs. Whether you're planning a business trip, a family vacation, or need a temporary vehicle, SwiftRide ensures comfort, safety, and convenience at every turn. Our user-friendly booking system, competitive pricing, and exceptional customer service make us your go-to choice for car rentals.</div>
 
     </div>
-</div>
+    </div>
+    
 </template>
 
 <style scoped>

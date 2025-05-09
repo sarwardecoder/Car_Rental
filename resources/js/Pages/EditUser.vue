@@ -13,13 +13,21 @@ const form = useForm({
     password: "",
     role: "",
 });
+const deleteUser = () => {
+    form.delete(`"/user/delete/${id}"`, {
+        onSuccess: () => {
+            flash.value.success && toast.success(flash.value.success);
+            flash.value.error && toast.error(flash.value.error);
+            form.reset();//form reset
+        },
+    });
+};
 
 
 
 
-
-const create = () => {
-    form.post("/user/create", {
+const edit = () => {
+    form.put(`"/user/edit/${id}"`, {
         onSuccess: () => {
             flash.value.success && toast.success(flash.value.success);
             flash.value.error && toast.error(flash.value.error);
@@ -39,21 +47,21 @@ const create = () => {
                 <h3 class="card-title text-center">Sign Up Here</h3>
 
 
-                <form @submit.prevent="create">
+                <form @submit.prevent="edit">
                     <label class="m-1" for="name">Name:</label>
-                    <input class="mb-2" type="text" id="name" placeholder="Type your Name" v-model="form.name" />
+                    <input class="mb-2" type="text" id="name" placeholder="Type your Name" v-model="form.name" :key="id" />
                     <div v-if="form.errors.name">{{ form.errors.name }}</div>
                     <label class="m-1" for="email">Email:</label>
 
-                    <input class="mb-2" type="email" id="email" placeholder="Type your email" v-model="form.email" />
+                    <input class="mb-2" type="email" id="email" placeholder="Type your email" v-model="form.email" :key="id" />
                     <label class="m-1" for="password">Password:</label>
                     <input class="mb-3" type="password" id="password" placeholder="Type your password"
-                        v-model="form.password" />
+                        v-model="form.password" :key="id" />
                     <label class="m-1" for="password">Confirm Password:</label>
                     <input class="mb-3" type="password" id="password" placeholder="confirm your password" />
                     <label class="m-1" for="role">Role:</label>
-                    <input class="mb-3" type="text" id="role" v-model="form.role" placeholder="admin or user" />
-                    <button class="btn btn-primary m-2 pt-2">Create New User</button>
+                    <input class="mb-3" type="text" id="role" v-model="form.role":key="id" placeholder="admin or user" />
+                    <button class="btn btn-primary m-2 pt-2">Update User</button>
                 </form>
 
             </div>

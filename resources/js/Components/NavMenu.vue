@@ -2,11 +2,14 @@
 import { Link, useForm, usePage } from  '@inertiajs/vue3';
 import { computed } from "vue";
 import { useToast } from "vue-toastification";
-import NavMenu from '@/Components/NavMenu.vue';
 const flash = computed(() => usePage().props.flash);
 const toast = useToast();
 let page = usePage;
-// console.log(page);
+const props = defineProps({
+email:String,
+name:String,
+success:String,
+});
 
 </script>
 
@@ -40,7 +43,7 @@ let page = usePage;
             </ul>
           </li>
           <li class="nav-item"><Link class="nav-link fs-5 nav-anim" href="/contact">Contact Us</Link></li>
-          <li class="nav-item"><Link class="nav-link fs-5 nav-anim" v-if="true" href="/logout">Hi, click to Logout!</Link></li>
+          <li class="nav-item"><Link class="nav-link fs-5 nav-anim" v-if="true" href="/logout">Hi, User click to Logout!</Link></li>
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

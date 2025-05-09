@@ -17,8 +17,6 @@ Route::get('/dashboard', [DashbaordController::class, 'dashboard'])->name('dashb
 // All user routes
 Route::get('/user/create', [UserController::class, 'userCreate'])->name('user.createform');
 Route::post('/user/create', [UserController::class, 'userStore'])->name('user.create');
-Route::get('/user/update/{id}', [UserController::class, 'userUpdate'])->name('user.update');
-Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
 
 
 
@@ -26,7 +24,10 @@ Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.lo
 Route::middleware(['Auth', 'RoleMiddleware:admin'])->group(function () {
     
     Route::get('/rent', action: [RentalController::class, 'rental'])->name('rent');
-
+    
+    Route::get('/user/edit/{email}', [UserController::class, 'userEdit'])->name('user.edit');
+    Route::get('/user/update/{email}', [UserController::class, 'userUpdate'])->name('user.update');
+    Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
 
 });
 

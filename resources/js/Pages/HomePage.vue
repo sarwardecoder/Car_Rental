@@ -1,5 +1,8 @@
 <script setup>
 import NavMenu from '../Components/NavMenu.vue';
+const props = defineProps({
+  flash: Object
+});
 </script>
 
 <template>

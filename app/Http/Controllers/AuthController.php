@@ -24,7 +24,11 @@ $password=$request->password;
 if(!Auth::attempt(['email'=>$email,'password'=>$password])){
 return redirect()->back()->with('error','invalid credentials');
 }
-return redirect()->route('rent')->with('success','User logged in successfully!');
+return redirect()->route('homepage')->with([
+    'success'=>'User logged in successfully!',
+    'email'=>$request->email,
+    'name'=>$request->name,
+]);
 
  }
 }

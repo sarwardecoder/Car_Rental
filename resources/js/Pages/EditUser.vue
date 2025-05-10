@@ -13,8 +13,8 @@ const form = useForm({
     password: "",
     role: "",
 });
-const deleteUser = () => {
-    form.delete(`"/user/delete/${id}"`, {
+const updateUser = () => {
+    form.delete(`"/user/update/${email}"`, {
         onSuccess: () => {
             flash.value.success && toast.success(flash.value.success);
             flash.value.error && toast.error(flash.value.error);
@@ -44,10 +44,10 @@ const edit = () => {
     <div class="container">
         <div class="card -center border border-info border-2 mt-3" style="width: 20rem">
             <div class="card-body">
-                <h3 class="card-title text-center">Sign Up Here</h3>
+                <h3 class="card-title text-center">Edit User Details</h3>
 
 
-                <form @submit.prevent="edit">
+                <form @submit.prevent="updateUser">
                     <label class="m-1" for="name">Name:</label>
                     <input class="mb-2" type="text" id="name" placeholder="Type your Name" v-model="form.name" :key="id" />
                     <div v-if="form.errors.name">{{ form.errors.name }}</div>

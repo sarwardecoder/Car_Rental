@@ -4,7 +4,7 @@ import { router } from '@inertiajs/vue3';
 import { Link, useForm, usePage} from '@inertiajs/vue3';
 import { computed, handleError, onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
-import NavMenu from '../Components/NavMenu.vue';
+import LayOut from '../Components/LayOut.vue';
 const page = usePage();
 // console.log(page.props.users);
 // const flash = computed(() => usePage().props.flash);
@@ -29,7 +29,7 @@ const edit=()=>{
 </script>
 
 <template>
-    <NavMenu/>
+    <LayOut/>
     <div class="container border border-primary border-1">
         <div class="row">
             

@@ -36,13 +36,13 @@ class UserController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string',
-                'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+                'email' => 'required|string|email|max:255|unique:users,email,',
                 'role' => 'required|string',
                 'password' => 'required|string|min:5|confirmed',
             ]);
 
 
-            User::create([
+           $k= User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role,

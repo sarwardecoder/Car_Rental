@@ -59,9 +59,9 @@ const updateUser = () => {
                         v-model="form.password" />
                     <div v-if="form.errors.password">{{ form.errors.password }}</div>
 
-                    <label class="m-1" for="confirm_password">Confirm Password:</label>
+                    <label class="m-1" for="password_confirmation">Confirm Password:</label>
                     <input type="password" v-model="form.password_confirmation" placeholder="Confirm Password" />
-                    <div v-if="form.errors.confirmPassword">{{ form.errors.confirmPassword }}</div>
+                    <div v-if="form.errors.password_confirmation">{{ form.errors.password_confirmation }}</div>
 
 
 

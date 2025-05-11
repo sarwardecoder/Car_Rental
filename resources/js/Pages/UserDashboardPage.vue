@@ -40,11 +40,11 @@ const deleteUser = (userId) => {
 
 <template>
     <LayOut />
-    <div class="container w-50 mt-3">
+    <div class="container border border-primary border-1 mt-3">
         <div class="row">
-            <h1 class="text-secondary text-center">Welcome to your Dashboard- <span class="text-primary">{{
+            <h1 class="text-secondary text-center">Welcome to your USER Dashboard- <span class="text-primary">{{
                 $page.props.auth.user.name }}</span> </h1>
-            <h2 class="text-warning text-center m-1">Do your Admin thingy here, </h2>
+            <h2 class="text-warning text-center m-1">Check all the Rental history here, </h2>
             <h3 class="text-danger text-center mb-3">you can edit almost every details</h3>
 
             <table class="table border border-2">
@@ -63,14 +63,7 @@ const deleteUser = (userId) => {
                         <td class="border text-success">{{ user.role }}</td>
                         <td class="border">
                             <button @click="edit(user.id)" class="btn btn-warning m-1">Edit</button>
-                        <button 
-  @click="deleteUser(user.id)" 
-  class="btn btn-danger m-1"
-  :disabled="user.role === 'admin'"
->
-  Delete
-</button>
-
+                            <button @click="deleteUser(user.id)" class="btn btn-danger m-1">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -78,7 +71,3 @@ const deleteUser = (userId) => {
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>

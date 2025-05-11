@@ -15,6 +15,7 @@ Route::get('/about', [HomeController::class, 'aboutPage'])->name('aboutPage');
 
 
 Route::get('/dashboard', [DashbaordController::class, 'dashboard'])->name('dashboard');
+Route::get('/user/dashboard', [DashbaordController::class, 'userDashboard'])->name('userDashboard');
 // All user routes
 Route::get('/user/create', [UserController::class, 'userCreate'])->name('user.createform');
 Route::post('/user/create', [UserController::class, 'userStore'])->name('user.create');

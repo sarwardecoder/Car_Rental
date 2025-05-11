@@ -10,26 +10,22 @@ onMounted(() => {
   bsOffcanvas = new Offcanvas(offcanvasRef.value);
 });
 
-const showOffCanvas = () => {
-  if (bsOffcanvas) {
-    bsOffcanvas.show();
-  }
-}
+
 </script>
 
 <template>
 
 
-  <!-- <img class="img-fluid rotate-90" src="/public/images/SideBarImage.png"/> -->
 
-  <button v-on:mouseover="showOffCanvas" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+  <button  class="btn rotate-hover-btn bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
     aria-controls="offcanvasExample">
-    <h1>Side Bar on the Left</h1>
+      <img class="img-fluid rotate-image sideBar rotate-hover " src="/public/images/SideBarImage.png"/>
+
   </button>
 
-  <div ref="offcanvasRef" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div ref="offcanvasRef" class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Do your quick jobs</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -41,8 +37,8 @@ const showOffCanvas = () => {
           Dropdown button
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Cars only</a></li>
+          <li><a class="dropdown-item" href="#">Total Dashboard</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
         </ul>
       </div>
@@ -54,6 +50,21 @@ const showOffCanvas = () => {
 img {
 height: 80px;
 width: auto;
-rotate:40px;
 }
+.sideBar{
+  position: fixed;
+  left: 0%;
+  top: 45%;
+}
+
+.rotate-image {
+  transform: rotate(-90deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+.rotate-hover:hover {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease-in-out;
+}
+
 </style>

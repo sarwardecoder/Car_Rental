@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+            $cars=Car::all();
+
+       return Inertia::render('Rentals',[
+            'cars'=>$cars //car props
+        ]);
     }
 
     /**

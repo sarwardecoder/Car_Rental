@@ -5,7 +5,7 @@ import NavMenu from '../Components/NavMenu.vue';
 <template>
 
     <NavMenu/>
-    
+    <h1>This is the rental page</h1>
 <div class="container">
 
 

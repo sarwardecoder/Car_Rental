@@ -45,7 +45,7 @@ const props = defineProps({
                         >
                     </li>
                     <li class="nav-item">
-                        <Link class="nav-link fs-5 nav-anim" href="/rent"
+                        <Link class="nav-link fs-5 nav-anim" href="/rental"
                             >Rent A Car</Link
                         >
                     </li>
@@ -82,22 +82,19 @@ const props = defineProps({
                             >Contact Us</Link
                         >
                     </li>
-                    <li class="nav-item">
+                    <li  v-if="$page.props.auth.user != null" class="nav-item">
                         <Link
                             class="nav-link fs-5 nav-anim"
-                            v-if="$page.props.auth.user.name"
-                            :key="$page.props.auth.user.email"
-                            href="/logout"
+                           
+                            href="/user/logout"
                         >
                             Hi, {{ $page.props.auth.user.name }} click to
                             Logout!
                         </Link>
                     </li>
-                    <li class="nav-item">
-                        <Link
-                            class="nav-link fs-5 nav-anim"
-                            v-else
-                            :key="'guest'"
+                    <li class="nav-item" v-else >
+                        <Link class="nav-link fs-5 nav-anim"
+                            
                             href="/login"
                         >
                             Login Here

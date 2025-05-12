@@ -11,6 +11,7 @@ const form = useForm({
     name: "",
     email: "",
     password: "",
+    password_confirmation:"",
     role: "",
 });
 
@@ -19,6 +20,7 @@ const form = useForm({
 
 
 const create = () => {
+    // console.log(form);
     form.post("/user/create", {
         onSuccess: () => {
             flash.value.success && toast.success(flash.value.success);
@@ -50,7 +52,7 @@ const create = () => {
                     <input class="mb-3" type="password" id="password" placeholder="Type your password"
                         v-model="form.password" />
                     <label class="m-1" for="password_confirmation">Confirm Password:</label>
-                    <input class="mb-3" type="password" id="password_confirmation" placeholder="confirm your password" />
+                    <input class="mb-3" type="password" id="password_confirmation" v-model="form.password_confirmation"    placeholder="confirm your password" />
                     <label class="m-1" for="role">Role:</label>
                     <input class="mb-3" type="text" id="role" v-model="form.role" placeholder="admin or user" />
                     <button class="btn btn-primary m-2 pt-2">Create New User</button>

@@ -37,7 +37,7 @@ onMounted(() => {
           Dropdown button
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Cars only</a></li>
+          <li><a class="dropdown-item" href="/cars">Cars only</a></li>
           <li><a class="dropdown-item" href="#">Total Dashboard</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
         </ul>

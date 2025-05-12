@@ -2,7 +2,7 @@
 import { Link, useForm, usePage } from  '@inertiajs/vue3';
 import { computed } from "vue";
 import { useToast } from "vue-toastification";
-import NavMenu from '@/Components/NavMenu.vue';
+import NavMenu from './Components/NavMenu.vue'
 const flash = computed(() => usePage().props.flash);
 const toast = useToast();
 

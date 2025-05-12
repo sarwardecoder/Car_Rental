@@ -37,7 +37,7 @@ Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
     Route::get('/rental', action: [RentalController::class, 'rental'])->name('rent');
 
 
-    //Car all URI
+    //Car all URI - read,create,edit,update,delete
     Route::resource('/cars', CarController::class);
 
 });

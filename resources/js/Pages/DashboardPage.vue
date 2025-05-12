@@ -2,7 +2,7 @@
 import { router, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
-import LayOut from '../Components/LayOut.vue';
+import LayOut from '../Pages/Components/LayOut.vue';
 
 const page = usePage();
 const toast = useToast();

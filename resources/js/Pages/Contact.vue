@@ -1,5 +1,5 @@
 <script setup>
-import NavMenu from '../Components/NavMenu.vue';
+import NavMenu from '../Pages/Components/NavMenu.vue';
 </script>
 
 <template>
@@ -7,7 +7,7 @@ import NavMenu from '../Components/NavMenu.vue';
 
     <div class="container">
 
-        
+        <h1>Contact Page</h1>
     </div>
 </template>
 

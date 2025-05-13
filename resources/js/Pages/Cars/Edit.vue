@@ -1,40 +1,75 @@
 <script setup>
 import { Link, router, useForm, usePage } from '@inertiajs/vue3';
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
-// import {NavMenu} from "./Components/NavMenu.vue";
+
 const page = usePage();
 const flash = computed(() => usePage().props.flash);
 const toast = useToast();
 
+const props = defineProps({
+  car: Object
+});
+
+const car = computed(() => page.props.car);
+
+// Form with default structure
 const form = useForm({
     name: '',
-    model: '',
     brand: '',
+    model: '',
     year: '',
     car_type: '',
+    image: null,
     daily_rent_price: '',
     availability: '',
-    image: null,
-})
-function store() {
-  form.post("/cars", {
-        onSuccess: () => {
-            flash.value.success && toast.success(flash.value.success);
-            flash.value.error && toast.error(flash.value.error);
-            form.reset();//form reset
-        },
-    });
+});
+
+const imagePreview = ref(null); // for new preview
+const existingImageUrl = computed(() => car.value?.image_url || null); // set this based on your backend setup
+
+
+// Populate form safely using defaults and reset
+onMounted(() => {
+    if (car.value) {
+        form.defaults({
+            name: car.value.name,
+            brand: car.value.brand,
+            model: car.value.model,
+            year: car.value.year,
+            car_type: car.value.car_type,
+            daily_rent_price: car.value.daily_rent_price,
+            availability: car.value.availability,
+            image: null, // don't prefill image field for file input
+        });
+        form.reset();
+    }
+});
+
+function update() {
+
+  form.post(`/cars/${car.value.id}`, {
+    forceFormData: true, // for handling file upload
+    _method: 'put',
+    onSuccess: () => {
+      flash.value.success && toast.success(flash.value.success);
+      flash.value.error && toast.error(flash.value.error);
+    },
+  });
 }
 
 const handleImage = (event) => {
     const file = event.target.files[0];
     if (file) {
-        form.image= file;
+        form.image = file;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 }
-
-
 </script>
 
 
@@ -43,9 +78,11 @@ const handleImage = (event) => {
     <div class="container">
         <div class="card -center border border-info border-2 mt-3" style="width: 20rem">
             <div class="card-body">
-                <h3 class="card-title text-center">Add New Cars Here</h3>
+                <h3 class="card-title text-center">Edit Car Details</h3>
 
-                <form @submit.prevent="store" enctype="multipart/form-data">
+
+                <form @submit.prevent="update" enctype="multipart/form-data">
+                <!-- <form @submit.prevent="update"> -->
                     <label class="m-1" for="name">Name:</label>
                     <input class="mb-2" type="text" id="name" placeholder="Cars Name" v-model="form.name" />
                     <div v-if="form.errors.name">{{ form.errors.name }}</div>
@@ -65,15 +102,15 @@ const handleImage = (event) => {
                     <input class="mb-3" type="text" id="car_type" v-model="form.car_type"
                         placeholder="Type of the Car" />
 
-                    <label class="m-1" for="daily_rent_price">Daily Rent Price:</label>
-                    <input class="mb-3" type="number" id="daily_rent_price" v-model="form.daily_rent_price"
+                    <label class="m-1" for="daily_rent">Daily Rent Price:</label>
+                    <input class="mb-3" type="number" id="daily_rent" v-model="form.daily_rent"
                         placeholder="Rent of the Car" />
 
                     <label class="m-1" for="availability">Availability:</label>
                     <input class="mb-3" type="text" id="availability" v-model="form.availability"
                         placeholder="Is it available" />
 
-                    <button class="btn btn-primary m-2 pt-2" :disabled="form.processing">Create New Car</button>
+                    <button class="btn btn-primary m-2 pt-2" :disabled="form.processing">Update the Car</button>
                 </form>
                  </div>
             </div>

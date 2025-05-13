@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use Exception;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +13,12 @@ class CarController extends Controller
     /**
      * Display a listing of the cars.
      */
-    public function index(Request $request)
+    public function listCars(Request $request)
     {
         $cars = Car::all();
 
         return Inertia::render('Cars/Cars', [
-            'cars' => $cars
+            'cars' => $cars,
         ]);
     }
 
@@ -33,22 +34,48 @@ class CarController extends Controller
      * Store a newly created car in storage.
      */
     public function store(Request $request)
-    {
-        // dd($request->all());
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'brand' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'image' => 'nullable|string',
-            'car_type' => 'required|string',
-            'daily_rent_price' => 'required|numeric|min:0',
-            'availability' => 'required|boolean',
-        ]);
+{
+    try{
+ $validated= $request->validate([
+        'name' => 'required|string|max:255',
+        'model' => 'required|string|max:255',
+        'brand' => 'required|string|max:255',
+        'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+        'car_type' => 'required|string|max:255',
+        'daily_rent_price' => 'required|numeric|min:0',
+        'availability' => 'required|string|max:255', // or boolean if coming from checkbox
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        Car::create($validated);
-        return redirect()->route('cars.index')->with('success', 'Car added successfully.');
+    // Handle image upload if present
+    $imagePath="";
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('images', 'public');
+        $validated['image'] = $imagePath;
+    }else{
+         $validated['image'] = null;
     }
+
+  $k=  Car::create([
+        'name' =>$request->name ,
+        'model' =>$request->model,
+        'brand' =>$request->brand,
+        'year' => $request->year,
+        'car_type' => $request->car_type,
+'daily_rent_price'=>$request->daily_rent_price,
+        'availability' => $request->availability,
+        'image' => $imagePath,
+       ]) ;
+
+    return redirect()->route('cars.index')->with('success', 'Car added successfully.');
+    }catch(Exception $e){
+return response()->json([
+    'status'=>'New adding failed',
+    'message'=>$e->getMessage(),
+]);
+    }
+}
+
 
     /**
      * Show the form for editing a specific car.
@@ -56,38 +83,50 @@ class CarController extends Controller
     public function edit(Car $car)
     {
         return Inertia::render('Cars/Edit', [
-            'car' => $car
+            'car' => $car,
         ]);
     }
 
     /**
      * Update the specified car in storage.
      */
-    public function update(Request $request, Car $car)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'brand' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'image' => 'nullable|string',
-            'car_type' => 'required|string',
-            'daily_rent_price' => 'required|numeric|min:0',
-            'availability' => 'required|boolean',
-        ]);
+   public function update(Request $request, Car $car)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'brand' => 'required|string|max:255',
+        'model' => 'required|string|max:255',
+        'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+        'car_type' => 'required|string',
+        'daily_rent_price' => 'required|numeric|min:0',
+        'availability' => 'required|boolean|max:255', 
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $car->update($validated);
-
-        return redirect()->route('cars.index')->with('success', 'Car updated successfully.');
+    if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')->store('images', 'public');
+    } else {
+        $validated['image'] = $car->image; // keep old image if none uploaded
     }
+
+    $car->update($validated);
+
+    return redirect()->route('cars.index')->with('success', 'Car updated successfully.');
+}
+
 
     /**
      * Remove the specified car from storage.
      */
-    public function destroy(Car $car)
+    public function deleteCar(Request $request)
     {
+        // dd($request->all());
+        // dd($car);
+        $car= Car::where('id',$request->id);
         $car->delete();
 
-        return redirect()->route('cars.index')->with('success', 'Car deleted successfully.');
+
+        return redirect('/listCars');
+
     }
 }

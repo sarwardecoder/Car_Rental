@@ -34,7 +34,7 @@ onMounted(() => {
       </div>
       <div class="dropdown mt-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          Dropdown button
+          Dashboard menu
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="/cars">Cars only</a></li>

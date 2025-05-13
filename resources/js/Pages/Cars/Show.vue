@@ -13,7 +13,7 @@ const form = useForm({
     brand: '',
     year: '',
     car_type: '',
-    daily_rent_price: '',
+    daily_rent: '',
     availability: '',
     image: null,
 })
@@ -65,8 +65,8 @@ const handleImage = (event) => {
                     <input class="mb-3" type="text" id="car_type" v-model="form.car_type"
                         placeholder="Type of the Car" />
 
-                    <label class="m-1" for="daily_rent_price">Daily Rent Price:</label>
-                    <input class="mb-3" type="number" id="daily_rent_price" v-model="form.daily_rent_price"
+                    <label class="m-1" for="daily_rent">Daily Rent Price:</label>
+                    <input class="mb-3" type="number" id="daily_rent" v-model="form.daily_rent"
                         placeholder="Rent of the Car" />
 
                     <label class="m-1" for="availability">Availability:</label>

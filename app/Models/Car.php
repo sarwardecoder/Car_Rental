@@ -15,6 +15,7 @@ class Car extends Model
         'model',
 
         'year',
+        'image',
 
         'car_type',
 

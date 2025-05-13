@@ -13,6 +13,7 @@ const create = () => {
     router.get(`/cars/create`, {
         onSuccess: () => {
             toast.success("Redirected to New Cars page.");
+            router.reload(); // reloads current page and fetches fresh data
         },
         onError: () => {
             toast.error("Failed to redirect.");
@@ -20,9 +21,11 @@ const create = () => {
     });
 };
 
-// Function to handle editing a specific car
-const edit = (carId) => {
-    router.visit(`/car/edit/${carId}`, {
+// Function to handle edit a specific car
+
+const edit = (id) => {
+
+   router.visit(`/car/${id}/edit`, {
         onSuccess: () => {
             toast.success("Redirected to edit page.");
         },
@@ -33,18 +36,28 @@ const edit = (carId) => {
 };
 
 // deleting a specific car
-const deleteCar = (carId) => {
-    router.delete(`/car/delete/${carId}`, {
-        preserveScroll: true,
-        onSuccess: () => {
-            toast.success("Car deleted successfully.");
-            router.reload(); // reloads current page and fetches fresh data
-        },
-        onError: () => {
-            toast.error("Failed to delete Car.");
-        }
-    });
-};
+function deleteCar(carId) {
+
+    if (confirm('Are you sure you want to delete this car?')){
+router.get(`/cars/delete?id=${carId}` )
+
+    }
+//   if (confirm('Are you sure you want to delete this car?')) {
+//         router.get(`/cars/${carId}`, {
+//                 preserveScroll: true,
+
+//       onSuccess: () => {
+//           toast.success('Car deleted successfully');
+//           router.reload(); // reloads current page and fetches fresh data
+
+//       },
+//       onError: () => {
+//         toast.error('Ops! Failed to delete car');
+//       },
+//     });
+// }
+}
+
 </script>
 
 <template>
@@ -63,33 +76,35 @@ const deleteCar = (carId) => {
             <!-- With this -->
             <button @click="create" class="btn btn-primary mb-3 p-2 fs-4 rounded">+ Add a new car</button>
             <hr>
-            <table class="table border border-2">
+            <table class="table border border-3">
                 <thead>
                     <tr class="text-primary">
-                        <th class="border">Name</th>
-                        <th class="border">Brand</th>
-                        <th class="border">Model</th>
-                        <th class="border">Year</th>
-                        <th class="border">Image</th>
-                        <th class="border">Car Type</th>
-                        <th class="border">Daily Rent Price</th>
-                        <th class="border">Availability</th>
-                        <th class="border">Action</th>
+                        <th class="border rounded">Sl</th>
+                        <th class="border rounded">Name</th>
+                        <th class="border rounded">Brand</th>
+                        <th class="border rounded">Model</th>
+                        <th class="border rounded">Year</th>
+                        <th class="border rounded">Image</th>
+                        <th class="border rounded">Car Type</th>
+                        <th class="border rounded">Daily Rent Price</th>
+                        <th class="border rounded">Availability</th>
+                        <th class="border rounded">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="car in items" :key="car.id">
-                        <td class="border text-primary">{{ car.name }}</td>
-                        <td class="border text-warning">{{ car.brand }}</td>
-                        <td class="border text-warning">{{ car.year }}</td>
-                        <td class="border text-warning">
-                            <img :src="car.image" alt="Car Image" width="100" />
+                        <td class="border rounded text-primary">{{ car.id }}</td>
+                        <td class="border rounded text-primary">{{ car.name }}</td>
+                        <td class="border rounded text-warning">{{ car.brand }}</td>
+                        <td class="border rounded text-warning">{{ car.model }}</td>
+                        <td class="border rounded text-warning">{{ car.year }}</td>
+                        <td class="border rounded text-warning d-flex justify-content-center">
+                            <img :src="'storage/'+ car.image" alt="Car Image" width="100" class="rounded" />
                         </td>
-                        <td class="border text-warning">{{ car.CarType }}</td>
-                        <td class="border text-warning">{{ car.DailyRentPrice }}</td>
-                        <td class="border text-warning">{{ car.Availability }}</td>
-                        <td class="border text-warning">{{ car.email }}</td>
-                        <td class="border">
+                        <td class="border rounded text-warning">{{ car.car_type }}</td>
+                        <td class="border rounded text-warning">{{ car.daily_rent_price }}</td>
+                        <td class="border rounded text-warning" >{{ car.availability==1? "Yes":"No" }}</td>
+                        <td class="border rounded">
                             <button @click="edit(car.id)" class="btn btn-warning m-1">Edit</button>
                             <button @click="deleteCar(car.id)" class="btn btn-danger m-1">
                                 Delete
@@ -103,4 +118,5 @@ const deleteCar = (carId) => {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

@@ -11,6 +11,7 @@ const toast = useToast();
 const user = computed(() => page.props.user);
 
 // Initialize form with user data
+
 const form = useForm({
   name: '',
   email: '',
@@ -33,10 +34,11 @@ const updateUser = () => {
         onSuccess: () => {
             if (flash.value.success) toast.success(flash.value.success);
             if (flash.value.error) toast.error(flash.value.error);
-            form.reset("password", "confirmPassword"); // Keep name/email/role
+            form.reset("password", "confirmPassword"); 
         },
     });
 };
+
 </script>
 
 <template>

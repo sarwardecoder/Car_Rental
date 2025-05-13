@@ -7,7 +7,7 @@ const props = defineProps({
 
 <template>
     
-    <div class="container border border-primary border-1">
+    <div class="container fluid">
         <div class="row">
             
             

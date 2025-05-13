@@ -38,7 +38,15 @@ Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
 
 
     //Car all URI - read,create,edit,update,delete
-    Route::resource('/cars', CarController::class);
+    // Route::resource('/cars', CarController::class);
+
+    Route::get('/listCars',[CarController::class,'listCars'])->name('cars.index');
+    Route::get('/cars/{car}/edit',[CarController::class,'edit'])->name('cars.edit');
+    Route::put('/cars/{car}/update',[CarController::class,'update'])->name('cars.update');
+    // Route::delete('/cars/{car}',[CarController::class,'destroy'])->name('cars.destroy');
+    Route::get('/cars/delete',[CarController::class,'deleteCar'])->name('cars.destroy');
+
+
 
 });
 

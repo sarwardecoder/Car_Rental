@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('brand');
             $table->string('model');
             $table->string('car_type');
-            $table->string('image');
+            $table->string('image')->nullable()->change();
             $table->integer('year');
             $table->decimal('daily_rent_price');
             $table->boolean('availability');

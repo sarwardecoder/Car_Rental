@@ -19,6 +19,12 @@ Route::get('/user/dashboard', [DashbaordController::class, 'userDashboard'])->na
 // All user routes
 Route::get('/user/create', [UserController::class, 'userCreate'])->name('user.createform');
 Route::post('/user/create', [UserController::class, 'userStore'])->name('user.create');
+//Auth controller for login
+Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -57,11 +63,9 @@ Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
     Route::post('/rentals/{rental}/update',[RentalController::class,'update'])->name('rentals.update');
     Route::get('/rentals/{rental}/delete',[RentalController::class,'deleteRental'])->name('rentals.destroy');
 
-
-
 });
 
-Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+//Routes exclusively for User only
+Route::middleware(['auth', 'RoleMiddleware:user'])->group(function () {
 
-
+});

@@ -38,6 +38,7 @@ const cars = ref(page.props.cars || []);
           Book Now
         </a>
         <button v-else class="btn btn-secondary" disabled>Unavailable</button>
+        <!-- {{ car.links() }} -->
       </div>
     </div>
   </div>
@@ -68,6 +69,11 @@ const cars = ref(page.props.cars || []);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-4px);
   transition: 0.3s ease;
+}
+
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 </style>

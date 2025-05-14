@@ -23,6 +23,7 @@ class RentalController extends Controller
     public function createRental()
     {
        $cars=Car::all();
+    //    $cars=Car::paginate(6);
         return Inertia::render('Rentals/RentalCreate',['cars'=>$cars]);
     }
 

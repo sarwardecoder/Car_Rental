@@ -18,9 +18,8 @@ console.log(props.car.image)
         />
         <!-- <div v-else class="text-muted">No image available</div> -->
       </div>
-
       <!-- Right Side: Car Details -->
-      <div class="col-md-6 p-5">
+      <div class="col-md-6 d-flex-reverse align-items-center justify-content-center bg-light">
         <h2 class="mb-4">{{ car.name }}</h2>
         <ul class="list-group">
           <li class="list-group-item">
@@ -66,5 +65,10 @@ console.log(props.car.image)
     border-radius: 8px;
     padding: 5px 8px;
     width: 100%;
+}
+div h2{
+  text-transform: capitalize;
+  margin: 20% 1%;
+  padding: 5px 5px;
 }
 </style>

@@ -4,10 +4,15 @@ import { ref } from "vue";
 import { useToast } from "vue-toastification";
 import LayOut from '../Pages/Components/LayOut.vue';
 
+
+const activeTab = ref('section1');
+
 const page = usePage();
 const toast = useToast();
 
 const items = ref(page.props.users);
+const cars = ref(page.props.cars);
+const rentals = ref(page.props.rentals);
 
 // Function to handle editing a specific user
 const edit = (userId) => {
@@ -47,7 +52,46 @@ const deleteUser = (userId) => {
             <h2 class="text-warning text-center m-1">Do your Admin thingy here, </h2>
             <h3 class="text-danger text-center mb-3">you can edit almost every details</h3>
 
-            <table class="table border border-2">
+              <div class="container mt-4">
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          :class="{ active: activeTab === 'section1' }"
+          @click.prevent="activeTab = 'section1'"
+          href="#"
+        >
+          Section 1
+        </a>
+      </li>
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          :class="{ active: activeTab === 'section2' }"
+          @click.prevent="activeTab = 'section2'"
+          href="#"
+        >
+          Section 2
+        </a>
+      </li>
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          :class="{ active: activeTab === 'section3' }"
+          @click.prevent="activeTab = 'section3'"
+          href="#"
+        >
+          Section 3
+        </a>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content border border-top-0 p-4">
+      <div v-if="activeTab === 'section1'">
+        <h3>All User details</h3>
+       <table class="table border border-2">
                 <thead>
                     <tr class="text-primary">
                         <th class="border">Name</th>
@@ -76,7 +120,32 @@ const deleteUser = (userId) => {
                 </tbody>
             </table>
         </div>
+    </div>      </div>
+      <div v-if="activeTab === 'section2'">
+        <h3>Section 2</h3>
+        <p>This is the content for Section 2.</p>
+      </div>
+      <div v-if="activeTab === 'section3'">
+        <h3>Section 3</h3>
+        <p>This is the content for Section 3.</p>
+      </div>
     </div>
+  </div>
+
+
+     
+    <div class="container w-50 mt-3">
+        <button class="btn btn-success w-25">All User details</button>
+    </div>
+    <div class="container w-50 mt-3">
+        <button class="btn btn-primary w-25">All car details</button>
+    </div>
+    <div class="container w-50 mt-3">
+        <button class="btn btn-danger w-25">All Rental details</button>
+    </div>
+
+
+
 </template>
 
 <style scoped>

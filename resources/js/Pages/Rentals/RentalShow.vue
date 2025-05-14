@@ -1,8 +1,27 @@
 <script setup>
+import { usePage } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
 
-const props = defineProps({ car: Object });
+const page= usePage();
+const car = ref(null);
 
-console.log(props.car.image)
+defineProps({ car: Object });
+
+
+
+onMounted(() => {
+  // Replace this with a prop or API call
+  car.value = {
+    name: page.props.value.name,
+    brand: page.props.value.brand,
+    model: page.props.value.model,
+    year: page.props.value.year,
+    car_type: page.props.value.car_type,
+    daily_rent_price: page.props.value.daily_rent_price,
+    availability: page.props.value.availability,
+    image_url: 'storage/images/', // Make sure this path is valid
+  };
+});
 </script>
 
 <template>
@@ -11,12 +30,12 @@ console.log(props.car.image)
       <!-- Left Side: Image -->
       <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
         <img
-          
-          :src="'http://127.0.0.1:8000/storage/' + car.image"
+          v-if="car?.image_url"
+          :src="car.image_url"
           alt="Car Image"
           class="img-fluid rounded shadow"
         />
-        <!-- <div v-else class="text-muted">No image available</div> -->
+        <div v-else class="text-muted">No image available</div>
       </div>
 
       <!-- Right Side: Car Details -->

@@ -45,7 +45,7 @@ const props = defineProps({
                         >
                     </li>
                     <li class="nav-item">
-                        <Link class="nav-link fs-5 nav-anim" href="/rental"
+                        <Link class="nav-link fs-5 nav-anim" href="/rentals/create"
                             >Rent A Car</Link
                         >
                     </li>
@@ -133,7 +133,7 @@ const props = defineProps({
 
 .nav-anim {
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.4s ease;
 }
 
 .nav-anim::after {
@@ -152,6 +152,9 @@ const props = defineProps({
 }
 
 .nav-anim:hover {
-    color: #14532d !important;
+    color: #f8fc07 !important;
+    text-shadow: #022410;
+padding: 3px;
+
 }
 </style>

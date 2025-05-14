@@ -18,7 +18,7 @@ const form = useForm({
     image: null,
 })
 function store() {
-  form.post("/cars", {
+  form.post("/cars/store", {
         onSuccess: () => {
             flash.value.success && toast.success(flash.value.success);
             flash.value.error && toast.error(flash.value.error);

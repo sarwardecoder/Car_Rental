@@ -1,5 +1,5 @@
 <script setup>
-import NavMenu from '../Pages/Components/NavMenu.vue';
+import LayOut from '../Pages/Components/LayOut.vue';
 const props = defineProps({
   flash: Object
 });
@@ -7,18 +7,13 @@ const props = defineProps({
 
 <template>
     
-    <div class="container fluid">
+  <LayOut/>
+  <div class="container fluid">
         <div class="row">
             
-            
-            
-            <div class="position-relative">
-                <NavMenu/>
-                <img src="/public/images/hero-banner.png" alt="SwiftRide Hero" class="img-fluid w-100" />
-    <!-- <div class="position-absolute top-50 start-50 translate-middle text-white text-center bg-dark bg-opacity-50 p-4 rounded">
-        <h2 class="display-4 text-warning">Your Journey, Our Wheels</h2>
-      <p class="lead">Classic Rides, Trusted Journeys</p>
-    </div> -->
+            <div class="position-absolute ">
+                <img src="/public/images/hero-banner.png" alt="SwiftRide Hero" class=" img-fluid w-100" />
+ 
   </div>
 
 

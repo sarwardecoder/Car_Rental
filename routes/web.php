@@ -38,13 +38,24 @@ Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
 
 
     //Car all URI - read,create,edit,update,delete
-    // Route::resource('/cars', CarController::class);
 
     Route::get('/listCars',[CarController::class,'listCars'])->name('cars.index');
+    Route::get('/cars/create',[CarController::class,'createCar'])->name('cars.create');
+    Route::post('/cars/store',[CarController::class,'store'])->name('cars.store');
+    Route::get('/showCar/{car}',[CarController::class,'showCar'])->name('cars.show');
     Route::get('/cars/{car}/edit',[CarController::class,'edit'])->name('cars.edit');
-    Route::put('/cars/{car}/update',[CarController::class,'update'])->name('cars.update');
-    // Route::delete('/cars/{car}',[CarController::class,'destroy'])->name('cars.destroy');
-    Route::get('/cars/delete',[CarController::class,'deleteCar'])->name('cars.destroy');
+    Route::post('/cars/{car}/update',[CarController::class,'update'])->name('cars.update');
+    Route::get('/cars/{car}/delete',[CarController::class,'deleteCar'])->name('cars.destroy');
+
+     //rental all URI - read,create,edit,update,delete
+
+    Route::get('/listRentals',[RentalController::class,'rentalList'])->name('rentals.index');
+    Route::get('/rentals/create',[RentalController::class,'createRental'])->name('rentals.create');
+    Route::post('/rentals/store',[RentalController::class,'store'])->name('rentals.store');
+    Route::get('/showRental/{rental}',[RentalController::class,'showRental'])->name('rentals.show');
+    Route::get('/rentals/{rental}/edit',[RentalController::class,'edit'])->name('rentals.edit');
+    Route::post('/rentals/{rental}/update',[RentalController::class,'update'])->name('rentals.update');
+    Route::get('/rentals/{rental}/delete',[RentalController::class,'deleteRental'])->name('rentals.destroy');
 
 
 

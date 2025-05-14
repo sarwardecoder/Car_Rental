@@ -25,7 +25,7 @@ class CarController extends Controller
     /**
      * Show the form for creating a new car.
      */
-    public function create()
+    public function createCar()
     {
         return Inertia::render('Cars/Create');
     }
@@ -76,6 +76,13 @@ return response()->json([
     }
 }
 
+public function showCar(Car $car){
+ return Inertia::render('Cars/Show', [
+            'car' => $car,
+        ]);
+
+}
+
 
     /**
      * Show the form for editing a specific car.
@@ -92,6 +99,7 @@ return response()->json([
      */
    public function update(Request $request, Car $car)
 {
+
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'brand' => 'required|string|max:255',
@@ -120,13 +128,11 @@ return response()->json([
      */
     public function deleteCar(Request $request)
     {
-        // dd($request->all());
-        // dd($car);
+     
         $car= Car::where('id',$request->id);
         $car->delete();
-
-
         return redirect('/listCars');
+
 
     }
 }

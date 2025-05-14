@@ -36,10 +36,10 @@ onMounted(() => {
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
           Dashboard menu
         </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/cars">Cars only</a></li>
-          <li><a class="dropdown-item" href="#">Total Dashboard</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
+        <ul class="dropdown-menu nav-anim">
+          <li><a class="dropdown-item nav-anim" href="/listCars">Cars only</a></li>
+          <li><a class="dropdown-item nav-anim" href="#">Total Dashboard</a></li>
+          <li><a class="dropdown-item nav-anim" href="#">Settings</a></li>
         </ul>
       </div>
     </div>
@@ -65,6 +65,12 @@ width: auto;
 .rotate-hover:hover {
   transform: rotate(90deg);
   transition: transform 0.3s ease-in-out;
+}
+.nav-anim:hover {
+    color: #f00961 !important;
+    text-shadow: #022410;
+padding-left: 1px;
+font-weight: bolder;
 }
 
 </style>

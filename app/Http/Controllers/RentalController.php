@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
+use Inertia\Inertia;
 use App\Models\Rental;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class RentalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function rentalList()
     {
-        return Inertia::render('Rentals');
+        return Inertia::render('Rentals/RentalList');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createRental()
     {
-        //
+       $cars=Car::all();
+        return Inertia::render('Rentals/RentalCreate',['cars'=>$cars]);
     }
 
     /**
@@ -35,7 +37,7 @@ class RentalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Rental $rental)
+    public function showRental(Rental $rental)
     {
         //
     }
@@ -59,7 +61,7 @@ class RentalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rental $rental)
+    public function deleteRental(Rental $rental)
     {
         //
     }

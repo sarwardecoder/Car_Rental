@@ -16,23 +16,28 @@ const totalCost = ref(null)
 // CSRF token from Laravel
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
 
-const checkAvailability = async (carId) => {
-  // console.log(endDate.value);
-  console.log(carId.value);
+const checkAvailability = async () => {
   if (startDate.value && endDate.value) {
+   //checking the data passed from carID
+    //     console.log('Sending check availability with:', {
+    //   car_id: props.car.id,
+    //   start_date: startDate.value,
+    //   end_date: endDate.value,
+    // })
     const res = await fetch('/check-availability', {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': csrfToken,
       },
       body: JSON.stringify({
-        car_id: props.carId,
+        car_id: props.car.id,
         start_date: startDate.value,
         end_date: endDate.value,
       }),
 
-    
+
     })
 
     const data = await res.json()
@@ -47,8 +52,8 @@ const rentCar = () => {
     return
   }
 
-  router.post(`/cars/${props.carId}/book`, {
-    car_id: props.carId,
+  router.post(`/cars/${props.car.id}/book`, {
+        car_id: props.car.id,
     start_date: startDate.value,
     end_date: endDate.value,
     total_cost: totalCost.value,
@@ -57,7 +62,7 @@ const rentCar = () => {
 </script>
 
 <template>
-  <NavMenu/>
+  <NavMenu />
   <div class="container-fluid vh-100">
     <div class="row h-100">
       <!-- Left Side: Image -->
@@ -87,17 +92,20 @@ const rentCar = () => {
           <li class="list-group-item">
             <strong>Available:</strong> {{ car.availability ? 'Yes' : 'No' }}
           </li>
-          <li class="list-group-item">  
+          <li class="list-group-item">
             <div>
               <label for="Start_Date">From</label>
-              <input class="date_picker" id="Start_Date" type="date" v-model="startDate" :key="car.id" @change="checkAvailability" />
+              <input class="date_picker" id="Start_Date" type="date" v-model="startDate" :key="car.id"
+                @change="checkAvailability" />
               <label for="End_Date">Till</label>
-              <input class="date_picker" id="End_Date" type="date" v-model="endDate" :key="car.id" @change="checkAvailability" />
+              <input class="date_picker" id="End_Date" type="date" v-model="endDate" :key="car.id"
+                @change="checkAvailability" />
 
               <div v-if="available === false" class="text-danger">Car unavailable for these dates.</div>
-              <div v-if="available && totalCost" class="text-success">Total: ${{ totalCost }}</div>
+              <div v-if="available && totalCost" class="text-success p-2 ">Total Rent: ${{ totalCost }}</div>
 
-              <button @click="rentCar" :disabled="!available" class="btn btn-primary text-white px-4 py-2 ms-1 rounded">
+              <button @click="rentCar" :disabled="!available"
+                class="btn btn-secondary text-white px-4 py-2 ms-1 rounded">
                 Book Now
               </button>
             </div>
@@ -125,18 +133,22 @@ div h2 {
   margin: 20% 1%;
   padding: 5px 5px;
 }
-input{
+
+input {
   margin: 10px;
 }
-label{
+
+label {
   margin: 2px;
   font-weight: bold;
 }
+
 .date_picker:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-4px);
   transition: 0.3s ease;
 }
+
 .shadow:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: translateY(-4px);

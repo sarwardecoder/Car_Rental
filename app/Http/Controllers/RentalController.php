@@ -91,7 +91,7 @@ public function checkAvailability(Request $request)
 
     Rental::create([
         'user_id' => auth()->id(),
-        'car_id' => $request->carId,
+        'car_id' => $request->car_id,
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
         'total_cost' => $availability->total_cost,

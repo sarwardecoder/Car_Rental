@@ -2,7 +2,6 @@
 
 const props = defineProps({ car: Object });
 
-console.log(props.car.image)
 </script>
 
 <template>

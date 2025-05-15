@@ -1,42 +1,63 @@
 <script setup>
-
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
-import axios from 'axios'
-
+import NavMenu from '../Components/NavMenu.vue'
 
 const props = defineProps({
   car: Object,
-  carId: Number
-});
+  carId: Number,
+})
 
 const startDate = ref('')
 const endDate = ref('')
 const available = ref(null)
 const totalCost = ref(null)
 
-const checkAvailability = async () => {
+// CSRF token from Laravel
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+
+const checkAvailability = async (carId) => {
+  // console.log(endDate.value);
+  console.log(carId.value);
   if (startDate.value && endDate.value) {
-    const res = await axios.post('/check-availability', {
-      car_id: props.carId,
-      start_date: startDate.value,
-      end_date: endDate.value
+    const res = await fetch('/check-availability', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
+      },
+      body: JSON.stringify({
+        car_id: props.carId,
+        start_date: startDate.value,
+        end_date: endDate.value,
+      }),
+
+    
     })
-    available.value = res.data.available
-    totalCost.value = res.data.total_cost
+
+    const data = await res.json()
+    available.value = data.available
+    totalCost.value = data.total_cost
   }
 }
 
 const rentCar = () => {
-  router.post(`'/cars/${car}/book'`, {
+  if (!available.value) {
+    alert('Car is not available for selected dates.')
+    return
+  }
+
+  router.post(`/cars/${props.carId}/book`, {
     car_id: props.carId,
     start_date: startDate.value,
-    end_date: endDate.value
+    end_date: endDate.value,
+    total_cost: totalCost.value,
   })
 }
 </script>
 
 <template>
+  <NavMenu/>
   <div class="container-fluid vh-100">
     <div class="row h-100">
       <!-- Left Side: Image -->
@@ -66,17 +87,17 @@ const rentCar = () => {
           <li class="list-group-item">
             <strong>Available:</strong> {{ car.availability ? 'Yes' : 'No' }}
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item">  
             <div>
-              <label for="Start_Date">Start Date</label>
-              <input id="Start_Date" type="date" v-model="startDate" @change="checkAvailability" />
-              <label for="End_Date">End Date</label>
-              <input id="End_Date" type="date" v-model="endDate" @change="checkAvailability" />
+              <label for="Start_Date">From</label>
+              <input class="date_picker" id="Start_Date" type="date" v-model="startDate" :key="car.id" @change="checkAvailability" />
+              <label for="End_Date">Till</label>
+              <input class="date_picker" id="End_Date" type="date" v-model="endDate" :key="car.id" @change="checkAvailability" />
 
               <div v-if="available === false" class="text-danger">Car unavailable for these dates.</div>
               <div v-if="available && totalCost" class="text-success">Total: ${{ totalCost }}</div>
 
-              <button @click="rentCar" :disabled="available" class="btn btn-primary text-white px-4 py-2 ms-1 rounded">
+              <button @click="rentCar" :disabled="!available" class="btn btn-primary text-white px-4 py-2 ms-1 rounded">
                 Book Now
               </button>
             </div>
@@ -97,18 +118,7 @@ const rentCar = () => {
   left: 40%;
 }
 
-.card form label {
-  padding: 2px 2px;
-  display: flex;
-}
 
-.card form input {
-  display: flex;
-  border: 1px solid rgb(8, 42, 43);
-  border-radius: 8px;
-  padding: 5px 8px;
-  width: 100%;
-}
 
 div h2 {
   text-transform: capitalize;
@@ -116,10 +126,20 @@ div h2 {
   padding: 5px 5px;
 }
 input{
-  margin: 2px;
+  margin: 10px;
 }
 label{
   margin: 2px;
   font-weight: bold;
+}
+.date_picker:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  transition: 0.3s ease;
+}
+.shadow:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  transition: 0.3s ease;
 }
 </style>

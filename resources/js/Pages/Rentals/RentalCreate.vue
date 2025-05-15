@@ -8,7 +8,6 @@ const page = usePage();
 const toast = useToast();
 const cars = ref(page.props.cars || []);
 </script>
-
 <template>
   <LayOut />
 <div class="d-flex flex-wrap justify-content-center gap-3 w-100">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Car;
+use Exception;
 use Inertia\Inertia;
 use App\Models\Rental;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class RentalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function rentalList()
+     public function rentalList()
     {
         return Inertia::render('Rentals/RentalList');
     }
@@ -38,7 +39,7 @@ class RentalController extends Controller
         return Inertia::render('Rentals/BookForm',['car'=>$car]);
     }
 
-    public function checkAvailability(Request $request)
+public function checkAvailability(Request $request)
 {
     $request->validate([
         'car_id' => 'required|exists:cars,id',
@@ -46,37 +47,35 @@ class RentalController extends Controller
         'end_date' => 'required|date|after_or_equal:start_date',
     ]);
 
-    $carId = $request->car_id;
-    $start = $request->start_date;
-    $end = $request->end_date;
-
-    $overlap = Rental::where('car_id', $carId)
-        ->where(function ($query) use ($start, $end) {
-            $query->whereBetween('start_date', [$start, $end])
-                  ->orWhereBetween('end_date', [$start, $end])
-                  ->orWhere(function ($query) use ($start, $end) {
-                      $query->where('start_date', '<=', $start)
-                            ->where('end_date', '>=', $end);
+    $conflict = Rental::where('car_id', $request->car_id)
+        ->where(function ($query) use ($request) {
+            $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                  ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                  ->orWhere(function ($query) use ($request) {
+                      $query->where('start_date', '<=', $request->start_date)
+                            ->where('end_date', '>=', $request->end_date);
                   });
         })->exists();
 
-    if ($overlap) {
+    if ($conflict) {
         return response()->json(['available' => false]);
     }
 
-    $car = Car::findOrFail($carId);
-    $days = Carbon::parse($start)->diffInDays(Carbon::parse($end)) + 1;
-    $total = $car->price_per_day * $days;
+    $days = Carbon::parse($request->start_date)->diffInDays(Carbon::parse($request->end_date)) + 1;
+    $car = Car::find($request->car_id);
+    $total = $car->daily_rent_price * $days;
 
     return response()->json([
         'available' => true,
-        'total_cost' => $total
+        'total_cost' => $total,
     ]);
+   
+
+
 }
 
-   public function processBooking(Request $request)
+   public function bookCar(Request $request)
 {
-    // dd($request->all());
 
     $request->validate([
         'car_id' => 'required|exists:cars,id',

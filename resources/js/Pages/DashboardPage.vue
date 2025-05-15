@@ -3,6 +3,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
 import LayOut from '../Pages/Components/LayOut.vue';
+import CarDetailsComponent from './Components/CarDetailsComponent.vue';
 
 
 const activeTab = ref('section1');
@@ -62,8 +63,7 @@ const deleteUser = (userId) => {
           @click.prevent="activeTab = 'section1'"
           href="#"
         >
-          Section 1
-        </a>
+User details        </a>
       </li>
       <li class="nav-item">
         <a 
@@ -72,7 +72,7 @@ const deleteUser = (userId) => {
           @click.prevent="activeTab = 'section2'"
           href="#"
         >
-          Section 2
+          Car Details
         </a>
       </li>
       <li class="nav-item">
@@ -82,7 +82,7 @@ const deleteUser = (userId) => {
           @click.prevent="activeTab = 'section3'"
           href="#"
         >
-          Section 3
+          Rentals Details 
         </a>
       </li>
     </ul>
@@ -122,8 +122,10 @@ const deleteUser = (userId) => {
         </div>
     </div>      </div>
       <div v-if="activeTab === 'section2'">
-        <h3>Section 2</h3>
-        <p>This is the content for Section 2.</p>
+        <h3>All Car Details</h3>
+<div>
+  <CarDetailsComponent/>
+</div>
       </div>
       <div v-if="activeTab === 'section3'">
         <h3>Section 3</h3>
@@ -133,18 +135,7 @@ const deleteUser = (userId) => {
   </div>
 
 
-     
-    <div class="container w-50 mt-3">
-        <button class="btn btn-success w-25">All User details</button>
-    </div>
-    <div class="container w-50 mt-3">
-        <button class="btn btn-primary w-25">All car details</button>
-    </div>
-    <div class="container w-50 mt-3">
-        <button class="btn btn-danger w-25">All Rental details</button>
-    </div>
-
-
+    
 
 </template>
 

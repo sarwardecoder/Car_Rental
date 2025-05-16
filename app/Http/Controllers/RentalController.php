@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\Car;
-use Exception;
 use Inertia\Inertia;
 use App\Models\Rental;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\alert;
+use App\Mail\CarBookingConfirmation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RentalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-     public function rentalList()
+     public function rentalList(Request $request)
     {
-        return Inertia::render('Rentals/RentalList');
+        $user=Auth::user();
+        $user_id=$user->id;
+        $rentals=Rental::where('user_id',$user_id);
+        return Inertia::render('Rentals/RentalList',['rentals'=>$rentals]);
     }
 
     /**
@@ -57,6 +63,8 @@ public function checkAvailability(Request $request)
                   });
         })->exists();
 
+
+
     if ($conflict) {
         return response()->json(['available' => false]);
     }
@@ -88,16 +96,23 @@ public function checkAvailability(Request $request)
     if (!$availability->available) {
         return back()->withErrors(['message' => 'Car is not available for the selected dates.']);
     }
+    $rental=Car::where('id',$request->car_id)->get();
 
-    Rental::create([
+      $booking=  Rental::create([
         'user_id' => auth()->id(),
         'car_id' => $request->car_id,
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
-        'total_cost' => $availability->total_cost,
+        'total_cost' => $request->total_cost,
     ]);
 
-    return redirect()->back()->with('success', 'Car rented successfully!');
+
+
+    Mail::to(auth()->user()->email)->send(new CarBookingConfirmation($booking));
+
+    return redirect()->route('rentals.create')->with('success', 'Booking confirmed and email sent.');
+
+
 }
 
 

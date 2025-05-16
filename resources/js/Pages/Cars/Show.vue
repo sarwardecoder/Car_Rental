@@ -1,10 +1,13 @@
 <script setup>
+import NavMenu from '../Components/NavMenu.vue';
+
 
 const props = defineProps({ car: Object });
 
 </script>
 
 <template>
+  <NavMenu/>
   <div class="container-fluid vh-100">
     <div class="row h-100">
       <!-- Left Side: Image -->

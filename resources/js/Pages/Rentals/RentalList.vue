@@ -3,13 +3,13 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
 import LayOut from "../Components/LayOut.vue";
+import NavMenu from '../Components/NavMenu.vue';
 const page = usePage();
 const toast = useToast();
 //Serial counter
 const slCount = 1;
 
 const items = ref(page.props.rentals);
-
 
 // Function to handle New rental
 const create = () => {
@@ -39,11 +39,11 @@ const edit = (rental) => {
 };
 
 //show 1 rental
-const showrental=(rental)=> {
+const showRental=(rental)=> {
 
-  router.visit(`/showrental/${rental}`,{
+  router.visit(`/showRental/${rental}`,{
         onSuccess: () => {
-            toast.success("Showing favorite rentalS.");
+            toast.success("Showing the details of rental car.");
         },
         onError: () => {
             toast.error("Failed to redirect.");
@@ -73,17 +73,17 @@ function deleteRental(rentalId) {
 </script>
 
 <template>
-    <LayOut />
+    <NavMenu/>
+    
     <div class="container w-80 mt-3">
         <div class="row">
             <h1 class="text-secondary text-center">Welcome to rentals Dashboard- <span class="text-primary">{{
                 $page.props.auth.user.name }}</span> </h1>
-            <h2 class="text-warning text-center m-1">Create new rentals, or update here, </h2>
+            <h2 class="text-warning text-center m-1">All your Rental history in one place</h2>
 
             <hr class="mt-1">
             <h2 class="text-warning text-center m-1"></h2>
 
-            <button @click="create" class="btn btn-primary mb-3 p-2 fs-4 rounded">+ Add a new rental</button>
             <hr>
             <table class="table border border-1">
                 <thead>
@@ -103,7 +103,7 @@ function deleteRental(rentalId) {
                 <tbody>
                     <tr v-for="rental in items" :key="rental.id">
                         <td class="border rounded text-primary">{{ slCount++ }}</td>
-                        <td class="border rounded text-primary">{{ rental.name }}</td>
+                        <td class="border rounded text-primary">{{  $page.props.rentals.name }}</td>
                         <td class="border rounded text-dark">{{ rental.brand }}</td>
                         <td class="border rounded text-dark">{{ rental.model }}</td>
                         <td class="border rounded text-dark">{{ rental.year }}</td>

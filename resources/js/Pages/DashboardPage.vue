@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { useToast } from "vue-toastification";
 import LayOut from '../Pages/Components/LayOut.vue';
 import CarDetailsComponent from './Components/CarDetailsComponent.vue';
+import RentalList from './Rentals/RentalList.vue';
 
 
 const activeTab = ref('section1');
@@ -128,8 +129,8 @@ User details        </a>
 </div>
       </div>
       <div v-if="activeTab === 'section3'">
-        <h3>Section 3</h3>
-        <p>This is the content for Section 3.</p>
+        <h3>Rental list</h3>
+<RentalList/>
       </div>
     </div>
   </div>

@@ -1,8 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import NavMenu from '../Components/NavMenu.vue'
+import { useToast } from "vue-toastification";
 
+// const flash = computed(() => usePage().props.flash);
+
+const toast = useToast();
+const booked = ref(false);
 const props = defineProps({
   car: Object,
   carId: Number,
@@ -15,10 +20,9 @@ const totalCost = ref(null)
 
 // CSRF token from Laravel
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-
 const checkAvailability = async () => {
   if (startDate.value && endDate.value) {
-   //checking the data passed from carID
+    //checking the data passed from carID
     //     console.log('Sending check availability with:', {
     //   car_id: props.car.id,
     //   start_date: startDate.value,
@@ -45,20 +49,27 @@ const checkAvailability = async () => {
     totalCost.value = data.total_cost
   }
 }
-
 const rentCar = () => {
   if (!available.value) {
-    alert('Car is not available for selected dates.')
+      flash.toast.error("Failed to book the car.")
     return
   }
 
   router.post(`/cars/${props.car.id}/book`, {
-        car_id: props.car.id,
+    onSuccess: () => {
+      flash.toast.success("Car booking Success.")
+      booked.value = true // ✅ update state
+    },
+    onError: () => {
+      flash.toast.error("Failed to book the car.")
+    },
+    car_id: props.car.id,
     start_date: startDate.value,
     end_date: endDate.value,
     total_cost: totalCost.value,
   })
 }
+
 </script>
 
 <template>
@@ -66,7 +77,8 @@ const rentCar = () => {
   <div class="container-fluid vh-100">
     <div class="row h-100">
       <!-- Left Side: Image -->
-      <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
+      <div class="col-md-6 d-flex align-items-center justify-content-center  bg-dark">
+        
         <img :src="'http://127.0.0.1:8000/storage/' + car.image" alt="Car Image" class="img-fluid rounded shadow" />
         <!-- <div v-else class="text-muted">No image available</div> -->
       </div>
@@ -104,9 +116,11 @@ const rentCar = () => {
               <div v-if="available === false" class="text-danger">Car unavailable for these dates.</div>
               <div v-if="available && totalCost" class="text-success p-2 ">Total Rent: ${{ totalCost }}</div>
 
-              <button @click="rentCar" :disabled="!available"
-                class="btn btn-secondary text-white px-4 py-2 ms-1 rounded">
-                Book Now
+              <button @click="rentCar" :disabled="!available || booked" :class="[
+                'px-4 py-2 ms-1 rounded',
+                booked ? 'btn btn-success text-white' : 'btn btn-secondary text-white'
+              ]">
+                {{ booked ? 'Car Booked' : 'Book Now' }}
               </button>
             </div>
           </li>
@@ -125,8 +139,6 @@ const rentCar = () => {
   top: 15%;
   left: 40%;
 }
-
-
 
 div h2 {
   text-transform: capitalize;

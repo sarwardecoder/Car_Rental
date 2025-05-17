@@ -66,23 +66,32 @@ const showRental = (rental) => {
     });
 };
 // deleting a specific rental
-function deleteRental(rentalId) {
+function cancelRental(rentalId) {
 
-    if (confirm('Are you sure you want to delete this rental?')) {
-        router.get(`/rentals/delete?id=${rentalId}`, {
+    if (confirm('Are you sure you want to cancel this rental?')) {
+        router.get(`/rentals/cancel?id=${rentalId}`, {
             preserveScroll: true,
 
             onSuccess: () => {
-                toast.success('rental deleted successfully');
+                toast.success('rental Cancelled successfully');
                 router.reload(); // reloads current page and fetches fresh data
 
             },
             onError: () => {
-                toast.error('Ops! Failed to delete rental');
+                toast.error('Ops! Failed to cancel rental');
             },
         });
     }
 }
+const updateStatus = (rental) => {
+  router.put(`/rentals/${rental.id}/update-status`, {
+    status: rental.status,
+  }, {
+    onSuccess: () => toast.success("Status updated."),
+    onError: () => toast.error("Failed to update status.")
+  });
+};
+
 
 
 </script>
@@ -112,32 +121,34 @@ function deleteRental(rentalId) {
     </tr>
   </thead>
   <tbody>
-    <tr v-for="(rental, index) in items" :key="rental.id">
-      <td class="border rounded text-primary">{{ index + 1 }}</td>
-      <td class="border rounded text-dark">{{ rental.car?.name || 'N/A' }}</td>
-      <td class="border rounded text-dark">{{ rental.start_date }}</td>
-      <td class="border rounded text-dark">{{ rental.end_date }}</td>
-      <td class="border rounded text-dark">{{ rental.total_cost }}</td>
-      <td class="border rounded text-warning">
-  <!-- Admin can click to change -->
-  <div v-if="user.role === 'admin'">
-    <select v-model="rental.status" @change="updateStatus(rental)" class="form-select form-select-sm">
-      <option value="Pending">Pending</option>
-      <option value="Confirmed">Confirmed</option>
-      <option value="Completed">Completed</option>
-      <option value="Cancelled">Cancelled</option>
-    </select>
-  </div>
+        <tr v-for="(rental, index) in items" :key="rental.id">
+        <td class="border rounded text-primary">{{ index + 1 }}</td>
+        <td class="border rounded text-dark">{{ rental.car?.name || 'N/A' }}</td>
+        <td class="border rounded text-dark">{{ rental.start_date }}</td>
+        <td class="border rounded text-dark">{{ rental.end_date }}</td>
+        <td class="border rounded text-dark">{{ rental.total_cost }}</td>
+        <td class="border rounded text-warning">
+    <!-- Admin can click to change -->
+    <div v-if="user.role === 'admin'">
+        <select v-model="rental.status" @change="updateStatus(rental)" class="form-select form-select-sm">
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+        </select>
+    </div>
 
-  <!-- Non-admin just sees status text -->
-  <div v-else>
-    {{ rental.status }}
-  </div>
-</td>
+    <!-- Non-admin just sees status text -->
+    <div v-else>
+        {{ rental.status }}
+    </div>
+    </td>
 
       <td class="border rounded">
-        <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
-        <button @click="deleteRental(rental.id)" class="btn btn-danger m-1">Delete</button>
+        <button @click="edit(rental.id)" class="btn btn-warning m-1"
+  :disabled="isPastOrToday(rental.start_date)">Edit</button>
+        <button @click="cancelRental(rental.id)"  class="btn btn-danger m-1"
+  :disabled="isPastOrToday(rental.start_date)">Cancel</button>
       </td>
     </tr>
   </tbody>

@@ -120,6 +120,24 @@ public function checkAvailability(Request $request)
 
 
 }
+public function updateStatus(Request $request, $id)
+{
+    $rental = Rental::findOrFail($id);
+
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized');
+    }
+
+    $validated = $request->validate([
+        'status' => 'required|in:Pending,Confirmed,Completed,Cancelled'
+    ]);
+
+    $rental->status = $validated['status'];
+    $rental->save();
+
+    return back()->with('success', 'Rental status updated successfully.');
+}
+
 
 
     /**

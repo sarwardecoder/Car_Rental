@@ -126,7 +126,7 @@ const props = defineProps({
 .gradient-success {
     background: linear-gradient(
         to right,
-        #198754,
+        #0b9bf4,
         #ffffff
     ); /* success green to white */
 }

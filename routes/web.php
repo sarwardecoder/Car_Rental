@@ -27,22 +27,22 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
 Route::middleware(['auth'])->group(function () {
-    //edit form open
-    Route::get('/user/edit/{id}', [UserController::class, 'edit']);
-    Route::put('/user/update/{id}', [UserController::class, 'update']);
-    Route::delete('/user/delete/{id}', [UserController::class, 'userDelete']);
-
-    Route::get('/user/logout', [UserController::class, 'userLogout'])->name('logout');
+    
 
 
 });
 
 Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
 
+//user all URI 
 
+Route::get('/user/edit/{id}', [UserController::class, 'edit']);
+    Route::put('/user/update/{id}', [UserController::class, 'update']);
+    Route::delete('/user/delete/{id}', [UserController::class, 'userDelete']);
 
+    
     //Car all URI - read,create,edit,update,delete
-
+    
     Route::get('/listCars', [CarController::class, 'listCars'])->name('cars.index');
     Route::get('/cars/create', [CarController::class, 'createCar'])->name('cars.create');
     Route::post('/cars/store', [CarController::class, 'store'])->name('cars.store');
@@ -50,13 +50,13 @@ Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
     Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
     Route::post('/cars/{car}/update', [CarController::class, 'update'])->name('cars.update');
     Route::get('/cars/{car}/delete', [CarController::class, 'deleteCar'])->name('cars.destroy');
-
-   
-
+    
 });
-// Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
 Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
-     //rental all URI - read,create,edit,update,delete
+    
+    Route::get('/user/logout', [UserController::class, 'userLogout'])->name('logout');
+    
+    //rental all URI - read,create,edit,update,delete
 
     Route::get('/listRentals', [RentalController::class, 'rentalList'])->name('rentals.index');
     Route::get('/rentals/create', [RentalController::class, 'createRental'])->name('rentals.create');

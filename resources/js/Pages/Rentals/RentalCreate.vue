@@ -10,7 +10,7 @@ const cars = ref(page.props.cars || []);
 </script>
 <template>
   <LayOut />
-<div class="d-flex flex-wrap justify-content-center gap-3 w-100">
+<div class="d-flex flex-wrap justify-content-center gap-3 w-80">
 
   <!-- <div class="container d-flex flex-wrap justify-content-center mt-4 gap-4"> -->
 

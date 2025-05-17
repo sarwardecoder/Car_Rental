@@ -65,8 +65,8 @@ const props = defineProps({
                                 >
                             </li>
                             <li>
-                                <Link class="dropdown-item" href="/settings"
-                                    >Settings</Link
+                                <Link class="dropdown-item" href="/listRentals"
+                                    >Rental history</Link
                                 >
                             </li>
                             <li><hr class="dropdown-divider" /></li>

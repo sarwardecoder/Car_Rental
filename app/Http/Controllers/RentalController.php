@@ -18,13 +18,19 @@ class RentalController extends Controller
     /**
      * Display a listing of the resource.
      */
-     public function rentalList(Request $request)
-    {
-        $user=Auth::user();
-        $user_id=$user->id;
-        $rentals=Rental::where('user_id',$user_id);
-        return Inertia::render('Rentals/RentalList',['rentals'=>$rentals]);
-    }
+  public function rentalList(Request $request)
+{
+    $user = Auth::user();
+
+    $rentals = Rental::where('user_id', $user->id)
+                ->with('car') // This is correct
+                ->get();      // Make sure you call get()
+
+    return Inertia::render('Rentals/RentalList', [
+        'rentals' => $rentals,
+        'user'=>$user,
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -110,7 +116,7 @@ public function checkAvailability(Request $request)
 
     Mail::to(auth()->user()->email)->send(new CarBookingConfirmation($booking));
 
-    return redirect()->route('rentals.create')->with('success', 'Booking confirmed and email sent.');
+    return redirect()->route('rentals.index')->with('success', 'Booking confirmed and email sent.');
 
 
 }
@@ -121,7 +127,8 @@ public function checkAvailability(Request $request)
      */
     public function showRental(Rental $rental)
     {
-        //
+        // $rentals=Rental::all();
+        // return Inertia::render();
     }
 
     /**

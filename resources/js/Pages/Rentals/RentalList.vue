@@ -6,10 +6,25 @@ import LayOut from "../Components/LayOut.vue";
 import NavMenu from '../Components/NavMenu.vue';
 const page = usePage();
 const toast = useToast();
+
+const user = page.props.user;
+
+const allRentals = ref(page.props.rentals);
+const items = ref([...allRentals.value]);
+
+const selectedStatus = ref("");
+
+const filterByStatus = () => {
+    if (selectedStatus.value === "") {
+        items.value = [...allRentals.value];
+    } else {
+        items.value = allRentals.value.filter(r => r.status === selectedStatus.value);
+    }
+};
+
 //Serial counter
 const slCount = 1;
 
-const items = ref(page.props.rentals);
 
 // Function to handle New rental
 const create = () => {
@@ -39,9 +54,9 @@ const edit = (rental) => {
 };
 
 //show 1 rental
-const showRental=(rental)=> {
+const showRental = (rental) => {
 
-  router.visit(`/showRental/${rental}`,{
+    router.visit(`/showRental/${rental}`, {
         onSuccess: () => {
             toast.success("Showing the details of rental car.");
         },
@@ -73,70 +88,61 @@ function deleteRental(rentalId) {
 </script>
 
 <template>
-    <NavMenu/>
-    
+    <NavMenu />
+
     <div class="container w-80 mt-3">
         <div class="row">
-            <h1 class="text-secondary text-center">Welcome to rentals Dashboard- <span class="text-primary">{{
-                $page.props.auth.user.name }}</span> </h1>
+           
             <h2 class="text-warning text-center m-1">All your Rental history in one place</h2>
 
             <hr class="mt-1">
             <h2 class="text-warning text-center m-1"></h2>
 
             <hr>
-            <table class="table border border-1">
-                <thead>
-                    <tr class="text-primary">
-                        <th class="border rounded">Sl</th>
-                        <th class="border rounded">Name</th>
-                        <th class="border rounded">Brand</th>
-                        <th class="border rounded">Model</th>
-                        <th class="border rounded">Year</th>
-                        <th class="border rounded">Image</th>
-                        <th class="border rounded">rental Type</th>
-                        <th class="border rounded">Daily Rent Price</th>
-                        <th class="border rounded">Availability</th>
-                        <th class="border rounded">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="rental in items" :key="rental.id">
-                        <td class="border rounded text-primary">{{ slCount++ }}</td>
-                        <td class="border rounded text-primary">{{  $page.props.rentals.name }}</td>
-                        <td class="border rounded text-dark">{{ rental.brand }}</td>
-                        <td class="border rounded text-dark">{{ rental.model }}</td>
-                        <td class="border rounded text-dark">{{ rental.year }}</td>
+           <table class="table border border-1">
+  <thead>
+    <tr class="text-primary">
+      <th class="border rounded">SL</th>
+      <th class="border rounded">Car Name</th>
+      <th class="border rounded">Start Date</th>
+      <th class="border rounded">End Date</th>
+      <th class="border rounded">Total Cost ($)</th>
+      <th class="border rounded">Status</th>
+      <th class="border rounded">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(rental, index) in items" :key="rental.id">
+      <td class="border rounded text-primary">{{ index + 1 }}</td>
+      <td class="border rounded text-dark">{{ rental.car?.name || 'N/A' }}</td>
+      <td class="border rounded text-dark">{{ rental.start_date }}</td>
+      <td class="border rounded text-dark">{{ rental.end_date }}</td>
+      <td class="border rounded text-dark">{{ rental.total_cost }}</td>
+      <td class="border rounded text-warning">
+  <!-- Admin can click to change -->
+  <div v-if="user.role === 'admin'">
+    <select v-model="rental.status" @change="updateStatus(rental)" class="form-select form-select-sm">
+      <option value="Pending">Pending</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+  </div>
 
+  <!-- Non-admin just sees status text -->
+  <div v-else>
+    {{ rental.status }}
+  </div>
+</td>
 
-                        <!-- <td class="border rounded text-dark d-flex justify-content-center">
-                            <img :src="'storage/' + rental.image" alt="rental Image" width="100" class="rounded" />
-                        </td> -->
-                        <td class="border rounded text-dark d-flex justify-content-center">
-                            <!-- <img :src="'storage/' + rental.image" alt="rental Image" width="100" class="rounded" /> -->
+      <td class="border rounded">
+        <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
+        <button @click="deleteRental(rental.id)" class="btn btn-danger m-1">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-                            <button @click="showRental(rental.id)" class="btn p-0 border-0 bg-transparent">
-                                <img :src="'storage/' + rental.image" alt="Show Rental" class="img-fluid rounded"
-                                    style="width: 120px; " 
-                                />
-
-                            </button>
-                        </td>
-
-
-                        <td class="border rounded text-warning">{{ rental.rental_type }}</td>
-                        <td class="border rounded text-warning">{{ rental.daily_rent_price }}</td>
-                        <td class="border rounded text-warning">{{ rental.availability == 1 ? "Yes" : "No" }}</td>
-                        <td class="border rounded">
-                            <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
-                            <button @click="deleteRental(rental.id)" class="btn btn-danger m-1">
-                                Delete
-                            </button>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </template>

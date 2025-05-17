@@ -76,16 +76,7 @@ User details        </a>
           Car Details
         </a>
       </li>
-      <li class="nav-item">
-        <a 
-          class="nav-link" 
-          :class="{ active: activeTab === 'section3' }"
-          @click.prevent="activeTab = 'section3'"
-          href="#"
-        >
-          Rentals Details 
-        </a>
-      </li>
+      
     </ul>
 
     <!-- Tab Content -->
@@ -128,10 +119,7 @@ User details        </a>
   <CarDetailsComponent/>
 </div>
       </div>
-      <div v-if="activeTab === 'section3'">
-        <h3>Rental list</h3>
-<RentalList/>
-      </div>
+     
     </div>
   </div>
 

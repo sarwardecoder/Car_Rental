@@ -4,9 +4,10 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Mail\CarBookingCancellation;
 use Illuminate\Queue\SerializesModels;
 
-class CarBookingCancellation extends Mailable
+class CarBookingConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +20,7 @@ class CarBookingCancellation extends Mailable
 
     public function build()
     {
-        return $this->subject('Car Booking is cancelled from SwiftRide')
+        return $this->subject('Car Booking is confirmation from SwiftRide')
                     ->view('emails.car_booking_confirmation');
     }
 }

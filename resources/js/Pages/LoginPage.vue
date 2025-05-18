@@ -66,7 +66,7 @@ const login = () => {
                                 />
                                 <button class="btn btn-primary m-2 pt-2">Login</button>
                             </form>
-                            <button class="btn btn-dark m-1">
+                            <button class="btn btn-warning m-1">
                                 <Link href="/user/create" class="card-link"
                                     >Not a User? Create now</Link
                                 >

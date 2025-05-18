@@ -25,12 +25,11 @@ onMounted(() => {
 
   <div ref="offcanvasRef" class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Do your quick jobs</h5>
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel"> </h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <div>
-        essentials only
       </div>
       <div class="dropdown mt-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">

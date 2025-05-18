@@ -128,7 +128,7 @@ public function showCar(Car $car){
      */
     public function deleteCar(Request $request)
     {
-     
+     dd($request->all());
         $car= Car::where('id',$request->id);
         $car->delete();
         return redirect('/listCars');

@@ -52,7 +52,6 @@ const showCar=(car)=> {
 };
 // deleting a specific car
 function deleteCar(car) {
-
     if (confirm('Are you sure you want to delete this car?')) {
         router.get(`/cars/${car}/delete`, {
             preserveScroll: true,

@@ -77,7 +77,7 @@ const props = defineProps({
 
 .gradient-success {
     background: linear-gradient(to right,
-            #0b9bf4,
+            #2eb2f8,
             #ffffff);
     /* success green to white */
 }
@@ -94,7 +94,7 @@ const props = defineProps({
     left: 0;
     height: 2px;
     width: 0%;
-    background-color: #14532d;
+    background-color: #1a24e7;
     transition: width 0.3s ease-in-out;
 }
 
@@ -103,7 +103,7 @@ const props = defineProps({
 }
 
 .nav-anim:hover {
-    color: #f8fc07 !important;
+    color: #900af7 !important;
     text-shadow: #022410;
     padding: 3px;
 

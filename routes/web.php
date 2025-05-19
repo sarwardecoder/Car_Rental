@@ -14,8 +14,6 @@ Route::get('/contact', [HomeController::class, 'contactUs'])->name('contactUs');
 Route::get('/about', [HomeController::class, 'aboutPage'])->name('aboutPage');
 
 
-Route::get('/dashboard', [DashbaordController::class, 'dashboard'])->name('dashboard');
-Route::get('/user/dashboard', [DashbaordController::class, 'userDashboard'])->name('userDashboard');
 // All user routes
 Route::get('/user/create', [UserController::class, 'userCreate'])->name('user.createform');
 Route::post('/user/create', [UserController::class, 'userStore'])->name('user.create');
@@ -28,18 +26,18 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::middleware(['auth'])->group(function () {
     
-
-
+    
+    
 });
 
 Route::middleware(['auth', 'RoleMiddleware:admin'])->group(function () {
-
-//user all URI 
-
-Route::get('/user/edit/{id}', [UserController::class, 'edit']);
+    
+    //user all URI 
+    
+    Route::get('/user/edit/{id}', [UserController::class, 'edit']);
     Route::put('/user/update/{id}', [UserController::class, 'update']);
     Route::delete('/user/delete/{id}', [UserController::class, 'userDelete']);
-
+    
     
     
     
@@ -51,30 +49,32 @@ Route::get('/user/edit/{id}', [UserController::class, 'edit']);
     Route::get('/showCar/{car}', [CarController::class, 'showCar'])->name('cars.show');
     Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
     Route::post('/cars/{car}/update', [CarController::class, 'update'])->name('cars.update');
-    Route::get('/cars/{id}/delete', [CarController::class, 'deleteCar'])->name('cars.destroy');
+    Route::get('/cars/{car}/delete', [CarController::class, 'deleteCar'])->name('cars.destroy');
     
 });
 Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
     
+    Route::get('/dashboard', [DashbaordController::class, 'dashboard'])->name('dashboard');
     Route::get('/user/logout', [UserController::class, 'userLogout'])->name('logout');
-    
+
     //rental all URI - read,create,edit,update,delete
-    
+
     Route::put('/rentals/{id}/update-status', [RentalController::class, 'updateStatus']);
+
+
     Route::get('/listRentals', [RentalController::class, 'rentalList'])->name('rentals.index');
     Route::get('/rentals/create', [RentalController::class, 'createRental'])->name('rentals.create');
     Route::get('/cars/{car}/book', [RentalController::class, 'bookForm'])->name('cars.book');
     Route::post('/cars/{car}/book', [RentalController::class, 'bookCar']);
 
     //check availability
-   
+
     Route::post('/check-availability', [RentalController::class, 'checkAvailability']);
-    
-    
+
+
     Route::get('/showRental/{rental}', [RentalController::class, 'showRental'])->name('rentals.show');
     Route::get('/rentals/{rental}/edit', [RentalController::class, 'edit'])->name('rentals.edit');
-    Route::put('/rentals/{rental}/update', [RentalController::class, 'update'])->name('rentals.update');
     Route::delete('/rentals/cancel?id={rentalId}', [RentalController::class, 'cancelRental'])->name('rentals.destroy');
-    
+
 });
 

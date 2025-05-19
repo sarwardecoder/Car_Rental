@@ -47,12 +47,11 @@ const deleteUser = (userId) => {
 
 <template>
     <LayOut />
-    <div class="container w-50 mt-3">
+    <div class="container w-75 mt-3">
         <div class="row">
             <h1 class="text-secondary text-center">Welcome to your Dashboard- <span class="text-primary">{{
                 $page.props.auth.user.name }}</span> </h1>
-            <h2 class="text-warning text-center m-1">Do your Admin thingy here, </h2>
-            <h3 class="text-danger text-center mb-3">you can edit almost every details</h3>
+            <h3 class="text-danger text-center mb-3">You can edit almost every details from here</h3>
 
               <div class="container mt-4">
     <!-- Tab Navigation -->

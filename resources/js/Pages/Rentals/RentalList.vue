@@ -7,18 +7,23 @@ import NavMenu from '../Components/NavMenu.vue';
 const page = usePage();
 const toast = useToast();
 
+
+const isAdmin = page.props.isAdmin;
+const rentals = ref(page.props.rentals);
+
+
 const user = page.props.user;
 
-const allRentals = ref(page.props.rentals);
-const items = ref([...allRentals.value]);
+// const allRentals = ref(page.props.rentals);
+const items = ref([...rentals.value]);
 
 const selectedStatus = ref("");
 
 const filterByStatus = () => {
     if (selectedStatus.value === "") {
-        items.value = [...allRentals.value];
+        items.value = [...rentals.value];
     } else {
-        items.value = allRentals.value.filter(r => r.status === selectedStatus.value);
+        items.value = rentals.value.filter(r => r.status === selectedStatus.value);
     }
 };
 
@@ -84,12 +89,19 @@ function cancelRental(rentalId) {
     }
 }
 const updateStatus = (rental) => {
-  router.put(`/rentals/${rental.id}/update-status`, {
-    status: rental.status,
-  }, {
-    onSuccess: () => toast.success("Status updated."),
-    onError: () => toast.error("Failed to update status.")
-  });
+  router.put(`/rentals/${rental}/update-status`, 
+  { status: rental.status }, 
+    {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('Status updated successfully.');
+
+      },
+      onError: (errors) => {
+        toast.error('Failed to update status.');
+      }
+    }
+  );
 };
 
 
@@ -116,6 +128,7 @@ const updateStatus = (rental) => {
       <th class="border rounded">Start Date</th>
       <th class="border rounded">End Date</th>
       <th class="border rounded">Total Cost ($)</th>
+      <th class="border rounded">Booked by</th>
       <th class="border rounded">Status</th>
       <th class="border rounded">Action</th>
     </tr>
@@ -127,22 +140,25 @@ const updateStatus = (rental) => {
         <td class="border rounded text-dark">{{ rental.start_date }}</td>
         <td class="border rounded text-dark">{{ rental.end_date }}</td>
         <td class="border rounded text-dark">{{ rental.total_cost }}</td>
+        <td class="border rounded text-dark">{{ rental.user?.name ?? 'N/A' }}</td>
         <td class="border rounded text-warning">
     <!-- Admin can click to change -->
-    <div v-if="user.role === 'admin'">
-        <select v-model="rental.status" @change="updateStatus(rental)" class="form-select form-select-sm">
-        <option value="Pending">Pending</option>
-        <option value="Confirmed">Confirmed</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
-        </select>
-    </div>
+  
+  <template v-if="isAdmin">
+    <select v-model="rental.status" @change="updateStatus(rental.id)">
+      <option value="pending">Pending</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="completed">Completed</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+  </template>
+  <!-- Non-admin just sees status text -->
+  <template v-else>
+    <span class="badge bg-secondary">{{ rental.status }}</span>
+  </template>
+</td>
 
-    <!-- Non-admin just sees status text -->
-    <div v-else>
-        {{ rental.status }}
-    </div>
-    </td>
+   
 
       <td class="border rounded">
         <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>

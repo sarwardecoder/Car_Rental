@@ -94,7 +94,7 @@ const updateStatus = (rental) => {
     {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success('Status updated successfully.');
+        toast.success('Status updated successfully. from VUE');
 
       },
       onError: (errors) => {

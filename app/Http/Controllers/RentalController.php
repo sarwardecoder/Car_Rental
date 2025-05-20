@@ -144,7 +144,7 @@ class RentalController extends Controller
             $rental->status = $request->$validated['status'];
             // dd($rental->status);
             $rental->save();
-            return back()->with('success', 'Rental status updated successfully.');
+            return back()->with('success', 'Rental status updated successfully. from controller');
         } catch (Exception $e) {
             return back()->with('error', 'failed to update');
         }

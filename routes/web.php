@@ -74,7 +74,7 @@ Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
 
     Route::get('/showRental/{rental}', [RentalController::class, 'showRental'])->name('rentals.show');
     Route::get('/rentals/{rental}/edit', [RentalController::class, 'edit'])->name('rentals.edit');
-    Route::delete('/rentals/cancel?id={rentalId}', [RentalController::class, 'cancelRental'])->name('rentals.destroy');
+    Route::put('/rentals/{rentalId}/cancel', [RentalController::class, 'cancelRental'])->name('rentals.destroy');
 
 });
 

@@ -29,6 +29,7 @@ class RentalController extends Controller
         return Inertia::render('Rentals/RentalList', [
             'rentals' => $rentals,
             'isAdmin' => $user->role === 'admin',
+            'user' => $user,
         ]);
     }
     /**
@@ -38,7 +39,7 @@ class RentalController extends Controller
     {
         $cars = Car::all();
         //    $cars=Car::paginate(6);
-        return Inertia::render('Rentals/RentalCreate', ['cars' => $cars, 'user_name'=>$request->name]);
+        return Inertia::render('Rentals/RentalCreate', ['cars' => $cars, 'user_name' => $request->name]);
     }
 
     /**
@@ -127,7 +128,6 @@ class RentalController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-
         try {
 
             $rental = Rental::findOrFail($id);
@@ -135,14 +135,7 @@ class RentalController extends Controller
             if (Auth::user()->role !== 'admin') {
                 abort(403, 'Unauthorized');
             }
-
-            $validated = $request->validate([
-                'status' => 'required|in:Pending,Confirmed,Completed,Cancelled'
-            ]);
-
-            // $rental->status = $validated['status'];
-            $rental->status = $request->$validated['status'];
-            // dd($rental->status);
+            $rental->status = $request->status;
             $rental->save();
             return back()->with('success', 'Rental status updated successfully. from controller');
         } catch (Exception $e) {
@@ -173,8 +166,16 @@ class RentalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deleteRental(Rental $rental)
+    public function cancelRental($id)
     {
-        //
+        try {
+
+            $rental = Rental::findOrFail($id);
+            $rental->status = 'Cancelled';
+            $rental->save();
+            return back()->with('success', 'Rental booking Cancelled successfully.');
+        } catch (Exception $e) {
+            return back()->with('error', 'failed to cancel');
+        }
     }
 }

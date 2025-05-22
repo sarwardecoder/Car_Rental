@@ -25,6 +25,7 @@ class RentalController extends Controller
         $rentals = $user->role === 'admin'
             ? Rental::with('car', 'user')->latest()->get()
             : Rental::with('car')->where('user_id', $user->id)->latest()->get();
+            
 
         return Inertia::render('Rentals/RentalList', [
             'rentals' => $rentals,

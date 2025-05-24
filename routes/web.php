@@ -60,6 +60,7 @@ Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
     //rental all URI - read,create,edit,update,delete
 
     Route::put('/rentals/{id}/update-status', [RentalController::class, 'updateStatus']);
+    // Route::post('/rentals/update-status/{id}', [RentalController::class, 'autoUpdateStatus']);
 
 
     Route::get('/listRentals', [RentalController::class, 'rentalList'])->name('rentals.index');

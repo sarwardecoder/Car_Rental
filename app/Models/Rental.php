@@ -15,6 +15,10 @@ class Rental extends Model
         'status'
     ];
 
+    protected $casts = [
+    'start_date' => 'date',
+    'end_date' => 'date',
+];
     public function car()
     {
         return $this->belongsTo(Car::class);
